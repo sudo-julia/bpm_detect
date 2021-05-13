@@ -9,25 +9,22 @@ from urllib import request as rq
 from urllib.parse import quote
 
 import spotipy
-from PyInquirer import print_json
 from spotipy.oauth2 import SpotifyClientCredentials
 from youtube_dl import YoutubeDL
 
+from bpm_detect import DOWNLOAD_BASE_PATH
+
 # Argparser
-parser = ArgumentParser(description="Download Spotify playlist the easy way")
-
-# Download path variable
-# if you want to change the download path use absolute path
-# example: /home/user/music
-
-# TODO (jam) use appdirs to find default downloads dir, create a subdir for this program
-# TODO (jam) config file for this location
-DOWNLOAD_BASE_PATH = "./downloads"
+parser: ArgumentParser = ArgumentParser(
+    description="Download Spotify playlist the easy way"
+)
 
 
 class Hades:
     """class"""
+
     def __init__(self):
+        # TODO option to load these from a config file or arguments
         # Envars
         self.__CLIENT_ID = os.environ.get("CLIENT_ID")
         self.__CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
@@ -38,7 +35,8 @@ class Hades:
         )
         self.sp = spotipy.Spotify(auth_manager=self.auth_manager)
 
-    def get_ydl_opts(self, path):
+    def get_ydl_opts(self, path: str):
+        """youtube download options"""
         return {
             "format": "bestaudio/best",
             "outtmpl": f"{path}/%(id)s.%(ext)s",
@@ -46,7 +44,7 @@ class Hades:
             "postprocessors": [
                 {
                     "key": "FFmpegExtractAudio",
-                    "preferredcodec": "mp3",
+                    "preferredcodec": "opus",
                     "preferredquality": "320",
                 }
             ],

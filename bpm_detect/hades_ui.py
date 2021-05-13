@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
+"""ui for bpm detector"""
 import os
 from argparse import ArgumentParser
 
 from examples import custom_style_2 as style
 from PyInquirer import Separator, prompt
 
-from hades import Hades, download_base_path
-from validators import PlaylistURIValidator
+from bpm_detect import DOWNLOAD_BASE_PATH
+from bpm_detect.main import Hades
+from bpm_detect.validators import PlaylistURIValidator
 
 # Argparser
 parser = ArgumentParser(description="Download Spotify playlist the easy way")
@@ -14,15 +16,16 @@ parser = ArgumentParser(description="Download Spotify playlist the easy way")
 
 class HadesUI:
     def __init__(self, pl_uri=None):
-        self.hades = Hades()
+        self.bpm_detect = Hades()
 
         if pl_uri:
-            self.hades.download_tracks(pl_uri)
+            self.bpm_detect.download_tracks(pl_uri)
         else:
             self.reset_screen()
             self.main_menu()
 
     def reset_screen(self):
+        """clear the screen"""
         os.system("clear")
 
     def main_menu(self):
@@ -38,11 +41,11 @@ class HadesUI:
                     Separator(),
                     {
                         "name": "Current download path",
-                        "disabled": f"{download_base_path}",
+                        "disabled": f"{DOWNLOAD_BASE_PATH}",
                     },
                     {
                         "name": "You can change the download path changing",
-                        "disabled": "hades.py > download_base_path",
+                        "disabled": "bpm_detect.py > DOWNLOAD_BASE_PATH",
                     },
                 ],
             },
@@ -69,7 +72,7 @@ class HadesUI:
             self.reset_screen()
             self.main_menu()
         else:
-            self.hades.download_tracks(response)
+            self.bpm_detect.download_tracks(response)
 
         confirm = [
             {
@@ -87,7 +90,7 @@ class HadesUI:
             self.quit()
 
     def manage_playlists(self):
-        playlists = self.hades.get_user_playlists()
+        playlists = self.bpm_detect.get_user_playlists()
         menu = [
             {
                 "type": "checkbox",
@@ -99,7 +102,7 @@ class HadesUI:
         selected_playlists = prompt(menu)["response"]
 
         for pl in selected_playlists:
-            self.hades.download_tracks(pl)
+            self.bpm_detect.download_tracks(pl)
 
 
 if __name__ == "__main__":

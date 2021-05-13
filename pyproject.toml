@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "bpm_detect"
+version = "0.1.0"
+description = "download songs from a spotofy playlist and sort the tracks based off bpm"
+authors = ["sudo-julia cpreinholtz"]
+license = "GPL-3.0"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+youtube_dl = "^2021.4.26"
+spotipy = "^2.18.0"
+PyInquirer = "^1.0.3"
+
+[tool.poetry.dev-dependencies]
+black = "^21.5b1"
+mypy = "^0.812"
+pytest = "^6.2.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

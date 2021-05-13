@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
 """main operations"""
 
-# Dependencies
 import os
 import re
+import sys
 from argparse import ArgumentParser
 from urllib import request as rq
 from urllib.parse import quote
-
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from youtube_dl import YoutubeDL
-
-from bpm_detect import DOWNLOAD_BASE_PATH
+from bpm_detect import DIRECTORIES
 
 # Argparser
 parser: ArgumentParser = ArgumentParser(
@@ -24,7 +22,7 @@ class Hades:
     """class"""
 
     def __init__(self):
-        # TODO option to load these from a config file or arguments
+        # TODO (jam) option to load these from a config file or arguments
         # Envars
         self.__CLIENT_ID = os.environ.get("CLIENT_ID")
         self.__CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
@@ -92,7 +90,7 @@ class Hades:
         return {"pl_name": pl_name, "pl_tracks": pl_tracks}
 
     def create_download_directory(self, dir_name):
-        path = f"{DOWNLOAD_BASE_PATH}/{dir_name}"
+        path = f"{DIRECTORIES['DOWNLOAD_BASE_PATH']}/{dir_name}"
 
         if os.path.exists(path):
             return path
@@ -119,6 +117,8 @@ class Hades:
         print(
             f"\033[1m\033[33m[info] Downloading {len(tracks)} tracks from {pl_details['pl_name']}\033[0m"
         )
+        if not path:
+            sys.exit(1)
         with YoutubeDL(self.get_ydl_opts(path)) as ydl:
             for track in tracks:
                 html = rq.urlopen(

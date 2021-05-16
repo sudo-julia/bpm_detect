@@ -58,16 +58,16 @@ class HadesUI:
         pass
 
     def download_playlist(self):
-        input = [
+        playlist_input = [
             {
                 "type": "input",
                 "name": "pl_uri",
-                "message": "Playlist uri to download:",
-                "default": "back",
+                "message": "Playlist uri to download ('back' to go back):",
+                # "default": "back",
                 "validate": PlaylistURIValidator,
             }
         ]
-        response = prompt(input)["pl_uri"]
+        response = prompt(playlist_input)["pl_uri"]
         if response == "back":
             self.reset_screen()
             self.main_menu()

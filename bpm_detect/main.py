@@ -4,7 +4,6 @@
 import os
 import re
 import sys
-from argparse import ArgumentParser
 from urllib import request as rq
 from urllib.parse import quote
 import spotipy
@@ -12,17 +11,13 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from youtube_dl import YoutubeDL
 from bpm_detect import DIRECTORIES
 
-# Argparser
-parser: ArgumentParser = ArgumentParser(
-    description="Download Spotify playlist the easy way"
-)
-
 
 class Hades:
     """class"""
 
     def __init__(self):
         # TODO (jam) option to load these from a config file or arguments
+        # TODO (jam) properly handle environment vars not being set
         # Envars
         self.__CLIENT_ID = os.environ.get("CLIENT_ID")
         self.__CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
@@ -42,8 +37,8 @@ class Hades:
             "postprocessors": [
                 {
                     "key": "FFmpegExtractAudio",
-                    "preferredcodec": "opus",
-                    "preferredquality": "320",
+                    # "preferredcodec": "opus",
+                    # "preferredquality": "320",
                 }
             ],
         }

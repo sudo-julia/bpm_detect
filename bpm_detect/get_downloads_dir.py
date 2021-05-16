@@ -5,8 +5,10 @@ import os
 from pathlib import Path
 
 
+# TODO (jam) implement reading from config file as final step for any OS
 def get_downloads_dir() -> str:
     """get the download path"""
+    # TODO (jam) add bpm_detect folder to end of windows dir
     # get windows downloads path
     name: str = os.name
     if name == "nt":
@@ -26,4 +28,5 @@ def get_downloads_dir() -> str:
             location = str(Path("~/downloads").expanduser())
         else:
             location = str(Path("~/Downloads").expanduser())
+    location += "/bpm_detect"
     return location

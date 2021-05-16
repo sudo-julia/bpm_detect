@@ -5,6 +5,7 @@
 build/
 dist/
 poetry.lock
+*.json
 *.pyc$
 dnfo.egg-info
 *__pycache__*

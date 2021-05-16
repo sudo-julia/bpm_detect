@@ -20,13 +20,25 @@ def create_dir(directory: Path):
 def read_config(configfile: Path):
     """read a config file"""
     if not configfile.exists():
-        config: ConfigParser = ConfigParser()
-        config["DEFAULT"] = {
-            "DownloadDirectory": str(DIRECTORIES["DOWNLOAD_BASE_PATH"])
-        }
-        with configfile.open("w") as file:
-            config.write(file)
-    raise NotImplementedError("This should return config values or something")
+        write_config(configfile)
+    config: ConfigParser = ConfigParser()
+    raise NotImplementedError
+
+
+def write_config(configfile: Path):
+    """write a configuration file"""
+    config: ConfigParser = ConfigParser()
+    placeholder_text: str = "Replace this with your {}"
+
+    config["PATHS"] = {"Download Directory": str(DIRECTORIES["DOWNLOAD_BASE_PATH"])}
+    config["TOKENS"] = {
+        "Client ID": placeholder_text.format("Client ID"),
+        "Client Secret": placeholder_text.format("Client Secret"),
+        "User ID": placeholder_text.format("User ID [optional]"),
+    }
+
+    with configfile.open("w") as file:
+        config.write(file)
 
 
 NAME: str = "bpm_detector"
@@ -39,9 +51,3 @@ DIRECTORIES: dict[str, Path] = {
 
 for direct in DIRECTORIES.values():
     create_dir(direct)
-
-IDS: dict[str, str] = {
-    "CLIENT_ID": "",
-    "CLIENT_SECRET": "",
-    "USER_ID": "",
-}
